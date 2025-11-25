@@ -1,0 +1,1067 @@
+<!DOCTYPE html>
+
+
+
+<html lang="zh-CN">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>高等教育路径与职业潜能深度评估 (H.E.P.A.M. 100)</title>
+
+    <style>
+
+        :root {
+
+            --primary-color: #1a1a1a;
+
+            --accent-color: #4a90e2;
+
+            --bg-color: #f5f7fa;
+
+            --card-bg: #ffffff;
+
+            --text-color: #333333;
+
+            --border-radius: 12px;
+
+        }
+
+        body {
+
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+
+            background-color: var(--bg-color);
+
+            color: var(--text-color);
+
+            line-height: 1.6;
+
+            margin: 0;
+
+            padding: 20px;
+
+            display: flex;
+
+            justify-content: center;
+
+            min-height: 100vh;
+
+        }
+
+        .container {
+
+            width: 100%;
+
+            max-width: 800px;
+
+            background: var(--card-bg);
+
+            padding: 40px;
+
+            border-radius: var(--border-radius);
+
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+
+            position: relative;
+
+        }
+
+        h1 {
+
+            font-size: 24px;
+
+            text-align: center;
+
+            margin-bottom: 10px;
+
+            color: var(--primary-color);
+
+        }
+
+        .subtitle {
+
+            text-align: center;
+
+            color: #666;
+
+            font-size: 14px;
+
+            margin-bottom: 30px;
+
+        }
+
+        /* Progress Bar */
+
+        .progress-container {
+
+            width: 100%;
+
+            height: 6px;
+
+            background-color: #e0e0e0;
+
+            border-radius: 10px;
+
+            margin-bottom: 30px;
+
+            overflow: hidden;
+
+        }
+
+        .progress-bar {
+
+            height: 100%;
+
+            background-color: var(--accent-color);
+
+            width: 0%;
+
+            transition: width 0.3s ease;
+
+        }
+
+        /* Question Section */
+
+        .part-title {
+
+            font-size: 12px;
+
+            text-transform: uppercase;
+
+            letter-spacing: 1px;
+
+            color: #999;
+
+            margin-bottom: 10px;
+
+            font-weight: 600;
+
+        }
+
+        .question-text {
+
+            font-size: 18px;
+
+            font-weight: 600;
+
+            margin-bottom: 25px;
+
+        }
+
+        .options-grid {
+
+            display: grid;
+
+            gap: 15px;
+
+        }
+
+        .option-btn {
+
+            background: #fff;
+
+            border: 1px solid #ddd;
+
+            padding: 15px 20px;
+
+            border-radius: 8px;
+
+            text-align: left;
+
+            cursor: pointer;
+
+            transition: all 0.2s ease;
+
+            font-size: 15px;
+
+            display: flex;
+
+            align-items: center;
+
+        }
+
+        .option-btn:hover {
+
+            border-color: var(--accent-color);
+
+            background-color: #f0f7ff;
+
+            transform: translateY(-2px);
+
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+
+        }
+
+        .option-letter {
+
+            font-weight: bold;
+
+            margin-right: 15px;
+
+            color: var(--accent-color);
+
+            background: rgba(74, 144, 226, 0.1);
+
+            width: 30px;
+
+            height: 30px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            border-radius: 50%;
+
+            flex-shrink: 0;
+
+        }
+
+        /* Controls */
+
+        .controls {
+
+            margin-top: 30px;
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+        }
+
+        .btn {
+
+            padding: 10px 20px;
+
+            border: none;
+
+            border-radius: 6px;
+
+            cursor: pointer;
+
+            font-weight: 500;
+
+            transition: opacity 0.2s;
+
+        }
+
+        .btn-prev {
+
+            background: #f0f0f0;
+
+            color: #666;
+
+        }
+
+        .btn-prev:hover {
+
+            background: #e0e0e0;
+
+        }
+
+        .counter {
+
+            font-size: 14px;
+
+            color: #999;
+
+        }
+
+        /* Result Section */
+
+        .result-section {
+
+            display: none;
+
+            text-align: center;
+
+        }
+
+        .score-display {
+
+            font-size: 48px;
+
+            font-weight: bold;
+
+            color: var(--accent-color);
+
+            margin: 20px 0;
+
+        }
+
+        .archetype-title {
+
+            font-size: 28px;
+
+            margin-bottom: 10px;
+
+            color: var(--primary-color);
+
+        }
+
+        .keywords {
+
+            color: #666;
+
+            font-style: italic;
+
+            margin-bottom: 30px;
+
+            background: #f5f5f5;
+
+            display: inline-block;
+
+            padding: 5px 15px;
+
+            border-radius: 20px;
+
+        }
+
+        .result-detail {
+
+            text-align: left;
+
+            background: #f9f9f9;
+
+            padding: 25px;
+
+            border-radius: 8px;
+
+            margin-bottom: 30px;
+
+        }
+
+        .result-detail h3 {
+
+            font-size: 16px;
+
+            color: var(--accent-color);
+
+            margin-top: 20px;
+
+            margin-bottom: 10px;
+
+        }
+
+        
+
+        .result-detail h3:first-child {
+
+            margin-top: 0;
+
+        }
+
+        .action-btn {
+
+            background: var(--primary-color);
+
+            color: white;
+
+            padding: 15px 30px;
+
+            border-radius: 30px;
+
+            font-size: 16px;
+
+            border: none;
+
+            cursor: pointer;
+
+            text-decoration: none;
+
+            display: inline-block;
+
+        }
+
+        .action-btn:hover {
+
+            opacity: 0.9;
+
+        }
+
+        /* Responsive */
+
+        @media (max-width: 600px) {
+
+            .container {
+
+                padding: 20px;
+
+            }
+
+            .question-text {
+
+                font-size: 16px;
+
+            }
+
+            .option-btn {
+
+                padding: 12px;
+
+                font-size: 14px;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <div id="intro">
+
+        <h1>H.E.P.A.M. 100 深度评估</h1>
+
+        <div class="subtitle">高等教育路径与职业潜能测评 - Professional Edition</div>
+
+        <div style="background: #f0f7ff; padding: 20px; border-radius: 8px; margin-bottom: 30px; text-align: left;">
+
+            <p><strong>【测试说明】</strong></p>
+
+            <ul style="font-size: 14px; padding-left: 20px;">
+
+                <li>本测评共 <strong>100 题</strong>，旨在深度扫描您的认知模式与职业底层逻辑。</li>
+
+                <li>请凭借<strong>第一直觉</strong>选择，没有对错之分。</li>
+
+                <li>测试结果将生成您的<strong>"职业人格画像"</strong>及<strong>"最佳升学路径"</strong>。</li>
+
+            </ul>
+
+        </div>
+
+        <button class="action-btn" onclick="startTest()">开始测评</button>
+
+    </div>
+
+    <div id="quiz" style="display: none;">
+
+        <div class="progress-container">
+
+            <div class="progress-bar" id="progress"></div>
+
+        </div>
+
+        
+
+        <div id="question-container">
+
+            <div class="part-title" id="part-title">PART 1</div>
+
+            <div class="question-text" id="question-text">Question goes here...</div>
+
+            <div class="options-grid" id="options-container">
+
+                </div>
+
+        </div>
+
+        <div class="controls">
+
+            <button class="btn btn-prev" onclick="prevQuestion()" id="prev-btn" disabled>上一题</button>
+
+            <div class="counter" id="counter">1 / 100</div>
+
+        </div>
+
+    </div>
+
+    <div id="result" class="result-section">
+
+        <div style="font-size: 14px; color: #999; text-transform: uppercase;">您的总分</div>
+
+        <div class="score-display" id="final-score">0</div>
+
+        <h2 class="archetype-title" id="archetype-name">画像名称</h2>
+
+        <div class="keywords" id="archetype-keywords">关键词</div>
+
+        
+
+        <div class="result-detail">
+
+            <h3>画像解析</h3>
+
+            <p id="archetype-desc">描述内容...</p>
+
+            
+
+            <h3>推荐路径</h3>
+
+            <p id="archetype-path">路径内容...</p>
+
+            
+
+            <h3>生存指南</h3>
+
+            <p id="archetype-advice">建议内容...</p>
+
+        </div>
+
+        <button class="action-btn" onclick="copyResult()">复制结果并咨询规划师</button>
+
+        <div id="copy-msg" style="margin-top: 10px; font-size: 12px; color: green; display: none;">已复制！请私信发送给主理人。</div>
+
+    </div>
+
+</div>
+
+<script>
+
+    // Data Structure
+
+    const questions = [
+
+        // Part 1: 认知与思维模式
+
+        { part: "Part 1: 认知与思维模式", q: "在接触一个全新概念时，您的大脑通过什么方式"解码"？", options: ["抽象的颜色、形状或情绪隐喻。", "在脑海中构建一个具象的三维模型。", "寻找它与已知知识系统的逻辑联系。", "寻找数据、定义和参考文献。"] },
+
+        { part: "Part 1: 认知与思维模式", q: "您认为"秩序"是什么？", options: ["对灵感的束缚，我更喜欢混沌。", "排版和构图的视觉平衡。", "系统运作的高效逻辑。", "必须遵守的规则和标准。"] },
+
+        { part: "Part 1: 认知与思维模式", q: "面对一个复杂的社会问题，您的第一反应是：", options: ["感到愤怒或悲伤，想创作作品表达情绪。", "思考如何设计一个海报或装置来呼吁关注。", "分析问题的成因，思考设计能介入的环节。", "评估解决该问题的成本和收益。"] },
+
+        { part: "Part 1: 认知与思维模式", q: "您更擅长记忆哪类信息？", options: ["气味、氛围和瞬间的感受。", "物体的材质、结构和光影细节。", "事件的发展脉络和因果关系。", "具体的日期、数字和名字。"] },
+
+        { part: "Part 1: 认知与思维模式", q: "在做决策时，"直觉"占据了多大比重？", options: ["100%，我相信我的直觉就是真理。", "70%，直觉为主，技术可行性为辅。", "30%，我会用直觉提出假设，用逻辑验证。", "0%，我只相信证据和利弊分析。"] },
+
+        { part: "Part 1: 认知与思维模式", q: "您如何看待"数学"？", options: ["枯燥、扼杀人性的符号。", "只有在计算比例和尺寸时是有用的工具。", "一种优雅的逻辑语言，能辅助生成设计。", "解释世界运行规律的基础。"] },
+
+        { part: "Part 1: 认知与思维模式", q: "您的梦境通常呈现为：", options: ["超现实的、充满情感色彩的碎片。", "具有电影质感的场景和画面。", "像是在解谜或推演剧情。", "很少做梦，或者梦境非常现实。"] },
+
+        { part: "Part 1: 认知与思维模式", q: "面对杂乱无章的桌面，您的心态是：", options: ["这种"乱"能给我安全感和灵感。", "只要我需要用的工具在手边就行。", "会定期整理，归类能提高效率。", "无法忍受，必须时刻保持井井有条。"] },
+
+        { part: "Part 1: 认知与思维模式", q: "您更喜欢哪种类型的阅读材料？", options: ["诗歌、意识流小说。", "摄影集、画册、设计年鉴。", "社会学著作、科普文章、设计思维论述。", "商业传记、投资指南、新闻报道。"] },
+
+        { part: "Part 1: 认知与思维模式", q: "您认为"真理"是：", options: ["主观的，每个人都有自己的真理。", "感知的，眼见为实。", "辩证的，取决于观察的角度。", "客观的，存在唯一的标准答案。"] },
+
+        // Part 2: 创作驱动力
+
+        { part: "Part 2: 创作驱动力", q: "您创作的最大动力来源是：", options: ["宣泄内心无法言说的情感。", "磨练技艺，做出一件工艺完美的作品。", "解决一个困扰他人的实际问题。", "获得市场认可和商业回报。"] },
+
+        { part: "Part 2: 创作驱动力", q: "如果您的作品被观众评价"看不懂"，您会：", options: ["无所谓，艺术本来就不是给所有人看的。", "遗憾，觉得自己的视觉传达不够清晰。", "反思，是否用户调研没做好，没切中痛点。", "焦虑，担心这会影响作品的销量或评分。"] },
+
+        { part: "Part 2: 创作驱动力", q: "在创作过程中，您最享受哪个阶段？", options: ["灵感迸发、在大脑中天马行空的瞬间。", "埋头苦干、一点点抠细节的制作过程。", "前期调研、梳理逻辑框架的推导过程。", "作品发布、获得数据反馈和收益的时刻。"] },
+
+        { part: "Part 2: 创作驱动力", q: "您希望您的作品被贴上什么标签？", options: ["震撼、疯狂、前卫。", "精致、美观、专业。", "聪明、好用、创新。", "畅销、经典、高价。"] },
+
+        { part: "Part 2: 创作驱动力", q: "面对"重复性劳动"（如抠图、排版），您感到：", options: ["极其厌恶，这是对生命的浪费。", "心态平和，这是一种修身养性的过程。", "思考如何通过工具或流程优化来自动化。", "如果给钱多，我可以接受，或者外包。"] },
+
+        { part: "Part 2: 创作驱动力", q: "如果没有甲方的限制，您会做什么？", options: ["做一个完全没人能理解的巨型装置。", "花一年时间打磨一件极致的手工艺品。", "发起一个能够改善社区环境的公益项目。", "创业，做一个能快速变现的商业品牌。"] },
+
+        { part: "Part 2: 创作驱动力", q: "您如何看待"抄袭"或"借鉴"？", options: ["也是一种艺术形式，如果是为了讽刺的话。", "坚决反对，原创性是设计师的底线。", "太阳底下无新事，关键在于组合方式的创新。", "只要不违法，能赚钱的模式都值得复制。"] },
+
+        { part: "Part 2: 创作驱动力", q: "您认为设计的终极价值在于：", options: ["自我表达。", "视觉美感。", "功能体验。", "商业增值。"] },
+
+        { part: "Part 2: 创作驱动力", q: "当作品遇到技术瓶颈无法实现时，您会：", options: ["修改方案，寻找更抽象的表达方式。", "死磕技术，哪怕通宵也要学出来。", "寻找技术合伙人，或者寻找替代性方案。", "评估投入产出比，如果不划算就砍掉功能。"] },
+
+        { part: "Part 2: 创作驱动力", q: "您更愿意为了什么而熬夜？", options: ["等待缪斯女神的降临。", "调整一个完美的贝塞尔曲线。", "跑通一个交互原型的逻辑闭环。", "准备第二天的项目路演PPT。"] },
+
+        // Part 3: 职业价值观与金钱观
+
+        { part: "Part 3: 职业价值观与金钱观", q: "对于"钱"，您的真实看法是：", options: ["钱是粪土，够生活就行，别打扰我创作。", "钱是对我手艺的认可，希望能拿到高薪。", "钱是资源，能帮我撬动更大的项目。", "钱是目标，财务自由是我工作的唯一动力。"] },
+
+        { part: "Part 3: 职业价值观与金钱观", q: "您期望的理想工作环境是：", options: ["废弃工厂改造的独立工作室，脏乱但自由。", "精品设计事务所，有格调，大家都专注干活。", "科技公司的创新实验室，有白板和各种设备。", "CBD写字楼的高层，有落地窗和行政服务。"] },
+
+        { part: "Part 3: 职业价值观与金钱观", q: "面对"毕业即失业"的言论，您的反应是：", options: ["不在乎，我就算去摆摊也要搞艺术。", "有点慌，但这行本来就看实力，我练好技术就行。", "理性分析，开始看哪些赛道还在增长（如AI）。", "非常焦虑，后悔没学金融或计算机。"] },
+
+        { part: "Part 3: 职业价值观与金钱观", q: "您对"稳定"的看法：", options: ["稳定意味着平庸和死亡。", "稳定能让我更安心地打磨作品。", "相对的稳定能提供试错的底气。", "稳定是第一位的，我想考公或进国企。"] },
+
+        { part: "Part 3: 职业价值观与金钱观", q: "如果必须转行，您会选择：", options: ["摇滚乐手、流浪诗人。", "蛋糕师、纹身师、手工匠人。", "产品经理、咨询顾问、用户研究员。", "销售总监、投资人、公务员。"] },
+
+        { part: "Part 3: 职业价值观与金钱观", q: "您希望在团队中扮演什么角色？", options: ["独狼，别管我，我交货就行。", "资深专家，负责把控视觉质量。", "项目Leader，协调各方资源推进进度。", "老板/投资人，负责定战略和分钱。"] },
+
+        { part: "Part 3: 职业价值观与金钱观", q: "您如何看待"加班"？", options: ["只要是我喜欢的创作，我可以24小时不睡。", "为了作品完美，我愿意自愿加班。", "如果流程合理就不该加班，加班是管理无能。", "坚决抵制，给多少钱办多少事，到点走人。"] },
+
+        { part: "Part 3: 职业价值观与金钱观", q: "您认为未来十年最稀缺的能力是：", options: ["独特的审美和想象力。", "极致的精细化执行力。", "跨学科的资源整合能力。", "资本运作和管理能力。"] },
+
+        { part: "Part 3: 职业价值观与金钱观", q: "如果一份工作年薪百万但极其枯燥，您会：", options: ["拒绝，这会杀死我的灵魂。", "犹豫，可能会干几年攒钱再回归设计。", "接受，并试图在枯燥中寻找优化的空间。", "立刻接受，这就是我梦想的工作。"] },
+
+        { part: "Part 3: 职业价值观与金钱观", q: "您对"名气"的渴望程度：", options: ["希望在艺术史上留名，哪怕死后才出名。", "希望在设计圈内被同行认可和尊崇。", "希望做出的产品被大众熟知和使用。", "名气不重要，闷声发大财最好。"] },
+
+        // Part 4: 社交偏好与人际关系
+
+        { part: "Part 4: 社交偏好与人际关系", q: "在派对上，您通常会：", options: ["躲在角落观察别人，或者甚至不去。", "和几个同行朋友聊最近的设计趋势。", "主动结识不同领域的人，听听新鲜事。", "交换名片，寻找潜在的合作伙伴或客户。"] },
+
+        { part: "Part 4: 社交偏好与人际关系", q: "您理想的室友背景是：", options: ["同样是搞艺术的疯子，我们可以一起发疯。", "安静的插画师或设计师，生活习惯相似。", "学计算机或心理学的，我们可以互补。", "学金融或法律的，感觉以后能帮上忙。"] },
+
+        { part: "Part 4: 社交偏好与人际关系", q: "当与他人发生观点冲突时，您会：", options: ["情绪激动，觉得对方不可理喻，甚至拉黑。", "固执己见，但表面上不再争论。", "试图理清双方的逻辑差异，寻找共识。", "表面妥协，利益最大化，心里骂傻X。"] },
+
+        { part: "Part 4: 社交偏好与人际关系", q: "您如何看待"人脉"？", options: ["虚伪的社交游戏。", "能够互相欣赏才华的朋友。", "信息交换和资源置换的渠道。", "成功的阶梯，甚至比能力更重要。"] },
+
+        { part: "Part 4: 社交偏好与人际关系", q: "面对一个理工科背景的"直男/直女"，您觉得：", options: ["乏味、无趣、像机器人。", "审美太差，无法沟通。", "逻辑清晰，值得学习。", "聪明、靠谱、适合做队友。"] },
+
+        { part: "Part 4: 社交偏好与人际关系", q: "您更喜欢哪种老师？", options: ["个性古怪、充满魅力的艺术家。", "技法高超、经验丰富的行业前辈。", "学识渊博、思维严谨的学者。", "拥有广泛社会资源的成功人士。"] },
+
+        { part: "Part 4: 社交偏好与人际关系", q: "您是否介意被贴上"怪人"的标签？", options: ["完全不介意，甚至以此为荣。", "不太介意，只要大家认可我的专业度。", "介意，我希望被视为专业的解决问题者。", "非常介意，我希望看起来合群且精英。"] },
+
+        { part: "Part 4: 社交偏好与人际关系", q: "在小组作业中，您通常负责：", options: ["提供最狂野的Idea，但不负责落地。", "负责视觉部分的执行和美化。", "负责统筹进度、做PPT和汇报。", "负责摸鱼，或者做最后的数据整理。"] },
+
+        { part: "Part 4: 社交偏好与人际关系", q: "您更愿意生活在哪个城市？", options: ["柏林/大理（艺术氛围浓厚，生活成本低）。", "东京/伦敦（设计产业发达，精致）。", "旧金山/深圳（科技创新中心，效率高）。", "香港/纽约（金融中心，金钱永不眠）。"] },
+
+        { part: "Part 4: 社交偏好与人际关系", q: "您的朋友圈构成是：", options: ["几乎全是搞艺术的。", "设计圈为主，少量其他。", "各行各业都有，比较杂。", "精英圈层，有很多大佬。"] },
+
+        // Part 5: 学习习惯与学术倾向
+
+        { part: "Part 5: 学习习惯与学术倾向", q: "您更适应哪种授课模式？", options: ["随性的工作坊，大家一起玩材料。", "师傅带徒弟式的 Studio，一对一改图。", "大班 Lecture，教授讲理论和系统知识。", "案例分析 Case Study，讨论商业成败。"] },
+
+        { part: "Part 5: 学习习惯与学术倾向", q: "面对一本纯文字的学术著作（如哲学或社会学），您：", options: ["完全读不进去，五分钟就困。", "如果配图多的话，勉强能看。", "能读下去，并会做笔记提炼观点。", "只读目录和结论，为了获取谈资。"] },
+
+        { part: "Part 5: 学习习惯与学术倾向", q: "高中时期，除了艺术，您哪科成绩最好？", options: ["语文（尤其是作文）或没有好的。", "英语（为了看懂国外教程）。", "物理或生物。", "数学或政治。"] },
+
+        { part: "Part 5: 学习习惯与学术倾向", q: "您对待作业 Deadline 的态度：", options: ["经常拖延，靠最后时刻的灵感爆发。", "尽量按时，为了保证作品质量会熬夜。", "制定时间表，分阶段完成，预留缓冲期。", "只要做完就行，哪怕质量一般，绝不迟交。"] },
+
+        { part: "Part 5: 学习习惯与学术倾向", q: "您如何看待通识课程（历史、科学、心理学）？", options: ["浪费时间，占用了我画画的时间。", "没啥用，希望能水过去。", "很重要，能构建底层思维，辅助设计。", "用来刷 GPA 的好机会。"] },
+
+        { part: "Part 5: 学习习惯与学术倾向", q: "您更擅长哪种类型的考试？", options: ["开放式命题创作。", "操作题或技能测试。", "论文写作或逻辑分析题。", "标准化选择题。"] },
+
+        { part: "Part 5: 学习习惯与学术倾向", q: "您做笔记的方式是：", options: ["满页的涂鸦和随笔。", "精美的手帐，图文并茂。", "康奈尔笔记法，逻辑清晰。", "直接拍照，或者不记。"] },
+
+        { part: "Part 5: 学习习惯与学术倾向", q: "您对"写代码"这件事：", options: ["生理性抗拒，看到代码就头疼。", "为了实现视觉效果（如Processing）愿意学一点。", "不排斥，认为这是未来的必备技能。", "只要能提高效率或赚钱，我可以学。"] },
+
+        { part: "Part 5: 学习习惯与学术倾向", q: "您希望大学四年给您带来什么？", options: ["一个完全自由的自我探索空间。", "一身过硬的专业本领。", "一套完善的思维体系和世界观。", "一个名校光环和强力的校友网。"] },
+
+        { part: "Part 5: 学习习惯与学术倾向", q: "遇到不懂的软件操作，您会：", options: ["乱点，试出来算运气好。", "找教程视频，一步步跟着做。", "查阅官方文档，理解其原理。", "找会的人帮我弄，或者花钱解决。"] },
+
+        // Part 6: 生活方式与自我管理
+
+        { part: "Part 6: 生活方式与自我管理", q: "您的作息时间：", options: ["完全混乱，昼夜颠倒，随性而为。", "晚睡晚起，典型的设计师作息。", "相对规律，保证精力充沛。", "早睡早起，严格自律。"] },
+
+        { part: "Part 6: 生活方式与自我管理", q: "您的房间状态：", options: ["像是台风过境，但我知道东西在哪。", "桌面有很多手办和装饰，乱中有序。", "干净整洁，物品分类摆放。", "极简主义，几乎没有多余物品。"] },
+
+        { part: "Part 6: 生活方式与自我管理", q: "您对"健身"的态度：", options: ["没兴趣，走路都累。", "办了卡很少去，主要是为了发朋友圈。", "有规律的运动习惯，为了保持大脑清醒。", "严格的身材管理，这是精英的标配。"] },
+
+        { part: "Part 6: 生活方式与自我管理", q: "周末您更愿意做什么？", options: ["宅在家里看电影、发呆、睡觉。", "逛展、探店、做手工。", "参加读书会、黑客松或城市探索。", "社交局、打高尔夫或网球。"] },
+
+        { part: "Part 6: 生活方式与自我管理", q: "您如何处理负面情绪？", options: ["沉溺其中，把它转化为创作养分。", "疯狂购物或吃东西发泄。", "分析原因，运动，或者找人倾诉。", "压抑它，因为情绪影响效率。"] },
+
+        { part: "Part 6: 生活方式与自我管理", q: "您对穿搭的态度：", options: ["古着、奇装异服，怎么个性怎么来。", "讲究品牌和搭配，追求潮流。", "舒适得体为主，或者是乔布斯式的极简。", "职业装，显得专业和成功。"] },
+
+        { part: "Part 6: 生活方式与自我管理", q: "您认为"自律"是：", options: ["对灵性的扼杀，是对人性的压抑。", "很难做到，但很羡慕能做到的人。", "自由的前提，能让我掌控生活。", "基本素质，不自律何以掌人生。"] },
+
+        { part: "Part 6: 生活方式与自我管理", q: "面对繁琐的生活琐事（缴费、办证）：", options: ["经常忘记，生活不能自理。", "虽然烦，但拖拖拉拉也能做完。", "列入待办清单，高效处理。", "尽量外包给别人做。"] },
+
+        { part: "Part 6: 生活方式与自我管理", q: "您希望未来的生活状态是：", options: ["流浪的、不确定的、充满惊喜的。", "精致的、小资的、有格调的。", "充实的、有挑战的、不断成长的。", "富足的、掌控一切的、受人尊敬的。"] },
+
+        { part: "Part 6: 生活方式与自我管理", q: "您做饭吗？", options: ["黑暗料理，或者只会煮泡面。", "会做，而且摆盘一定要好看。", "会做，注重营养搭配和效率。", "不做，时间成本太高，点外卖或请阿姨。"] },
+
+        // Part 7: 审美偏好与艺术观
+
+        { part: "Part 7: 审美偏好与艺术观", q: "您更欣赏哪位大师？", options: ["梵高 / 弗里达（强烈的情感）。", "原研哉 / 深泽直人（极致的细节）。", "迪特·拉姆斯 / 诺曼（功能与逻辑）。", "安迪·沃霍尔 / 杰夫·昆斯（商业与艺术结合）。"] },
+
+        { part: "Part 7: 审美偏好与艺术观", q: "您对"极简主义"的看法：", options: ["无聊，性冷淡，缺乏人情味。", "高级，耐看，考验功力。", "高效，减少认知负荷。", "省钱，容易复制，且显得高端。"] },
+
+        { part: "Part 7: 审美偏好与艺术观", q: "面对一件丑陋但实用的东西：", options: ["拒绝使用，哪怕它再好用，我选择死。", "忍受着使用，并尝试贴贴纸改造它。", "使用它，并思考怎么改进它的设计。", "只要好用就行，不在乎长相。"] },
+
+        { part: "Part 7: 审美偏好与艺术观", q: "您认为好的设计应该：", options: ["让人哭，让人笑，让人起鸡皮疙瘩。", "细节完美，无可挑剔。", "让生活变得更便捷，解决问题。", "卖得好，利润高。"] },
+
+        { part: "Part 7: 审美偏好与艺术观", q: "您对当代艺术（如贴墙上的香蕉）的看法：", options: ["有趣，打破了边界，这就是艺术。", "看不懂，还是喜欢传统架上绘画。", "这是一种观念营销和社会实验。", "洗钱工具，或者是智商税。"] },
+
+        { part: "Part 7: 审美偏好与艺术观", q: "您更希望通过作品传达：", options: [""我是谁"。", ""看我做得多棒"。", ""世界是什么样的"。", ""你应该买这个"。"] },
+
+        { part: "Part 7: 审美偏好与艺术观", q: "在购买产品时，您最看重：", options: ["限量版、独一无二。", "材质、手感、做工。", "功能参数、评测数据。", "品牌知名度、保值率。"] },
+
+        { part: "Part 7: 审美偏好与艺术观", q: "您认为设计师的社会责任是：", options: ["保持真我不妥协。", "提升大众审美。", "推动社会创新和可持续发展。", "创造就业和税收。"] },
+
+        { part: "Part 7: 审美偏好与艺术观", q: "您对 AI 绘画（Midjourney）的态度：", options: ["抵制，那是对灵魂的亵渎。", "担心，怕它抢了我的饭碗。", "拥抱，把它当作强大的生产力工具。", "投资，这是下一个风口。"] },
+
+        { part: "Part 7: 审美偏好与艺术观", q: "如果您设计的 LOGO 被甲方改成大红大绿：", options: ["愤怒，觉得受到了侮辱，拒绝署名。", "难过，觉得毁了自己的作品。", "试图理解甲方的意图，寻找折中方案。", "只要钱给够，改成彩虹色都行。"] },
+
+        // Part 8: 风险偏好与安全感
+
+        { part: "Part 8: 风险偏好与安全感", q: "假设您有 100 万，您会：", options: ["环游世界，寻找灵感。", "购买顶级的摄影器材或画材，升级工作室。", "投资自己，去读一个更高级的学位。", "买房，或者买理财产品。"] },
+
+        { part: "Part 8: 风险偏好与安全感", q: "您更害怕：", options: ["变得平庸，泯然众人。", "技术落后，被行业淘汰。", "失去选择权，被困在单一赛道。", "贫穷，没钱付房租。"] },
+
+        { part: "Part 8: 风险偏好与安全感", q: "为了获得一份高薪但枯燥的工作，您愿意牺牲多少？", options: ["完全不愿意，自由是无价的。", "可以短期牺牲，攒够钱就跑。", "如果能学到东西，可以接受。", "完全可以，工作就是为了赚钱。"] },
+
+        { part: "Part 8: 风险偏好与安全感", q: "您认为大学学历是：", options: ["一张废纸，才华最重要。", "专业技能的证明。", "一个成长的平台和思维训练场。", "敲门砖，阶级跃迁的入场券。"] },
+
+        { part: "Part 8: 风险偏好与安全感", q: "您是否有记账习惯？", options: ["完全没有，今朝有酒今朝醉。", "偶尔记，大概知道花了多少。", "有，对收支有清晰规划。", "精确到分，有详细的资产配置表。"] },
+
+        { part: "Part 8: 风险偏好与安全感", q: "如果设计行业彻底没落，您会：", options: ["坚持到底，饿死也要做设计。", "哪怕去教画画，也要留在圈子里。", "带着设计思维转行，比如做产品或咨询。", "立刻转行，去送外卖或者做销售都行。"] },
+
+        { part: "Part 8: 风险偏好与安全感", q: "您对"跨界"的态度：", options: ["不专注，容易博而不精。", "可以在相关领域（如平面转UI）尝试。", "必须的，这是未来的生存之道。", "只要能赚钱，跨到养猪都行。"] },
+
+        { part: "Part 8: 风险偏好与安全感", q: "您更向往哪种成功？", options: ["像梵高一样，死后作品价值连城。", "像原研哉一样，成为设计界的泰斗。", "像乔布斯一样，用产品改变世界。", "像马斯克一样，成为世界首富。"] },
+
+        { part: "Part 8: 风险偏好与安全感", q: "在选择大学时，您最看重：", options: ["学校的艺术氛围和自由度。", "专业的排名和设施设备。", "学校的综合排名和校友资源。", "毕业后的就业率和平均薪资。"] },
+
+        { part: "Part 8: 风险偏好与安全感", q: "您觉得自己是一个有"安全感"的人吗？", options: ["极度缺乏，所以需要艺术来填补。", "只要手艺在身，就有安全感。", "安全感来源于对局势的掌控和认知。", "安全感来源于银行卡余额。"] },
+
+        // Part 9: 宏观视角与趋势
+
+        { part: "Part 9: 宏观视角与趋势", q: "您平时关注的新闻版块是：", options: ["娱乐、时尚、艺术展讯。", "设计软件更新、行业动态。", "科技突破、社会议题、心理学。", "股市、楼市、宏观经济。"] },
+
+        { part: "Part 9: 宏观视角与趋势", q: "您认为 NFT 和 Web3 是：", options: ["数字艺术的新载体。", "没啥意思，还是实体有质感。", "可能改变生产关系的技术变革。", "割韭菜的骗局，或者暴富的机会。"] },
+
+        { part: "Part 9: 宏观视角与趋势", q: "对于"元宇宙"，您的第一反应是：", options: ["里面的视觉效果酷不酷？", "我要学什么新软件才能做元宇宙设计？", "它的交互逻辑和社会形态会是怎样的？", "这里面有什么商机？"] },
+
+        { part: "Part 9: 宏观视角与趋势", q: "您认为未来的竞争对手是：", options: ["天赋比我高的艺术家。", "更年轻、更拼、更便宜的设计师。", "AI、算法和拥有跨界能力的人。", "资本和垄断巨头。"] },
+
+        { part: "Part 9: 宏观视角与趋势", q: "您如何看待中国当下的互联网环境？", options: ["审美洼地，土味横行。", "都在抄袭，没有原创。", "充满变数和机会的丛林，效率极高。", "赚钱的好地方，只要能卷赢。"] },
+
+        { part: "Part 9: 宏观视角与趋势", q: "您认为"品牌"的核心是：", options: ["独特的灵魂和调性。", "统一的视觉识别系统 (VI)。", "用户心智和信任资产。", "溢价能力。"] },
+
+        { part: "Part 9: 宏观视角与趋势", q: "您对"数据驱动设计"的态度：", options: ["数据会扼杀创意，冷冰冰的。", "可以参考，但不能全信数据。", "数据能指导创意，让设计更精准。", "数据是上帝，数据好才是真的好。"] },
+
+        { part: "Part 9: 宏观视角与趋势", q: "您认为 2030 年的设计师：", options: ["会回归手工艺，更加稀缺。", "会变成更高级的软件操作员。", "会变成产品经理或创意总监。", "这个职业可能不复存在了。"] },
+
+        { part: "Part 9: 宏观视角与趋势", q: "看到一个爆款产品（如瑞幸咖啡），您首先想：", options: ["它的包装设计真好看/真丑。", "它的物料延展做得不错。", "它是怎么通过营销和定位火起来的？", "我能不能加盟一家？"] },
+
+        { part: "Part 9: 宏观视角与趋势", q: "您认为自己更像：", options: ["一只敏感的猫。", "一头勤恳的牛。", "一只聪明的狐狸。", "一匹贪婪的狼。"] },
+
+        // Part 10: 未来规划
+
+        { part: "Part 10: 未来规划 [91-100]", q: "如果您必须在一个没有艺术氛围但很赚钱的城市生活：", options: ["会枯萎，甚至抑郁，必须离开。", "会在家里搞创作，自我满足。", "会适应，并找到新的兴趣点。", "会很开心，因为赚钱最重要。"] },
+
+        { part: "Part 10: 未来规划 [91-100]", q: "回顾过去，您的成功更多源于：", options: ["莫名其妙的运气和灵感。", "日复一日的练习和坚持。", "正确的选择和规划。", "钻空子或利用规则。"] },
+
+        { part: "Part 10: 未来规划 [91-100]", q: "您更害怕被评价为：", options: ["俗气、平庸。", "不专业、业余。", "愚蠢、没逻辑。", "穷、失败。"] },
+
+        { part: "Part 10: 未来规划 [91-100]", q: "如果综合大学的设计专业排名不如某艺术学院，但综排很高：", options: ["秒选艺术学院，专业第一。", "纠结，可能会选艺术学院。", "倾向于综合大学，看重平台。", "秒选综合大学，名校光环最重要。"] },
+
+        { part: "Part 10: 未来规划 [91-100]", q: "您父母对您的职业期望更偏向：", options: ["你开心就好，家里养得起。", "有一门手艺，饿不死。", "成为社会精英，受人尊重。", "赚大钱，光宗耀祖。"] },
+
+        { part: "Part 10: 未来规划 [91-100]", q: "您内心深处觉得，搞艺术：", options: ["是神圣的，是通往真理的路径。", "是一门技术活，需要不断精进。", "是一种思维方式，可以应用在各处。", "是一种服务业，甚至是一种忽悠。"] },
+
+        { part: "Part 10: 未来规划 [91-100]", q: "您对"规则"的态度：", options: ["规则就是用来打破的。", "遵守规则，把活干好。", "利用规则，游走在边界。", "制定规则，让别人遵守。"] },
+
+        { part: "Part 10: 未来规划 [91-100]", q: "如果给您一个重来的机会，您会：", options: ["还是会毫不犹豫地学艺术。", "可能会选个更实用的设计专业。", "可能会选 CS 或商科，辅修设计。", "绝不学艺术，太坑了。"] },
+
+        { part: "Part 10: 未来规划 [91-100]", q: "做完这 99 道题，您现在的感受是：", options: ["烦死了，题目太多太长。", "还行，挺全面的。", "有趣，引发了我对自己定位的思考。", "想知道结果，能不能帮我做决策。"] },
+
+        { part: "Part 10: 未来规划 [91-100]", q: "最后一题：您相信命运掌握在自己手里吗？", options: ["命运是神秘的，我随波逐流。", "越努力，越幸运。", "选择比努力更重要。", "命是弱者的借口，运是强者的谦辞。"] }
+
+    ];
+
+    let currentQuestion = 0;
+
+    let score = 0;
+
+    const scores = new Array(100).fill(0); // Store individual answers to allow "Back"
+
+    const intro = document.getElementById('intro');
+
+    const quiz = document.getElementById('quiz');
+
+    const result = document.getElementById('result');
+
+    
+
+    const partTitleEl = document.getElementById('part-title');
+
+    const questionTextEl = document.getElementById('question-text');
+
+    const optionsContainer = document.getElementById('options-container');
+
+    const progressEl = document.getElementById('progress');
+
+    const counterEl = document.getElementById('counter');
+
+    const prevBtn = document.getElementById('prev-btn');
+
+    function startTest() {
+
+        intro.style.display = 'none';
+
+        quiz.style.display = 'block';
+
+        renderQuestion();
+
+    }
+
+    function renderQuestion() {
+
+        const q = questions[currentQuestion];
+
+        partTitleEl.textContent = q.part;
+
+        questionTextEl.textContent = `${currentQuestion + 1}. ${q.q}`;
+
+        counterEl.textContent = `${currentQuestion + 1} / 100`;
+
+        
+
+        // Progress bar
+
+        const progress = ((currentQuestion) / 100) * 100;
+
+        progressEl.style.width = `${progress}%`;
+
+        // Prev button state
+
+        prevBtn.disabled = currentQuestion === 0;
+
+        prevBtn.style.opacity = currentQuestion === 0 ? 0.5 : 1;
+
+        optionsContainer.innerHTML = '';
+
+        const letters = ['A', 'B', 'C', 'D'];
+
+        
+
+        q.options.forEach((opt, index) => {
+
+            const btn = document.createElement('div');
+
+            btn.className = 'option-btn';
+
+            btn.onclick = () => handleAnswer(index + 1);
+
+            
+
+            const letter = document.createElement('div');
+
+            letter.className = 'option-letter';
+
+            letter.textContent = letters[index];
+
+            
+
+            const text = document.createElement('span');
+
+            text.textContent = opt;
+
+            
+
+            btn.appendChild(letter);
+
+            btn.appendChild(text);
+
+            optionsContainer.appendChild(btn);
+
+        });
+
+    }
+
+    function handleAnswer(value) {
+
+        scores[currentQuestion] = value; // A=1, B=2, C=3, D=4
+
+        
+
+        if (currentQuestion < 99) {
+
+            currentQuestion++;
+
+            renderQuestion();
+
+        } else {
+
+            showResult();
+
+        }
+
+    }
+
+    function prevQuestion() {
+
+        if (currentQuestion > 0) {
+
+            currentQuestion--;
+
+            renderQuestion();
+
+        }
+
+    }
+
+    function showResult() {
+
+        quiz.style.display = 'none';
+
+        result.style.display = 'block';
+
+        
+
+        const totalScore = scores.reduce((a, b) => a + b, 0);
+
+        document.getElementById('final-score').textContent = totalScore;
+
+        
+
+        let archetype = {};
+
+        
+
+        if (totalScore <= 175) {
+
+            archetype = {
+
+                name: "天生的艺术家 (The Pure Artist)",
+
+                keywords: "感性 · 直觉 · 反叛 · 纯粹",
+
+                desc: "您是为艺术而生的灵魂。综合大学的通识教育、绩点压力和社交规则会扼杀您的灵性。您无法忍受平庸和商业的铜臭味。",
+
+                path: "顶级纯艺术院校 (Fine Art Track) - RISD, RCA, SAIC",
+
+                advice: "请务必在垂直领域做到极致的不可替代性，建立极其强烈的个人风格 IP。因为在 AI 时代，只有最顶尖的疯子才能存活。"
+
+            };
+
+        } else if (totalScore <= 230) {
+
+            archetype = {
+
+                name: "视觉表现专家 (The Visual Specialist)",
+
+                keywords: "技法 · 工匠 · 审美 · 专注",
+
+                desc: "您是完美的执行者。您享受打磨作品的过程，相信手上的功夫。您适合去像 ArtCenter 这样职业化程度极高的学校，把自己练成一把锋利的刀。",
+
+                path: "职业型艺术/设计院校 (Design Track) - ArtCenter, SVA, Pratt",
+
+                advice: "您的手活是优势，也是劣势。AI 正在冲击由于信息差带来的技能壁垒。请在磨练技法的同时，哪怕多学一点点商业思维作为护城河。"
+
+            };
+
+        } else if (totalScore <= 280) {
+
+            archetype = {
+
+                name: "感性的体验者 (The Empathic Creator)",
+
+                keywords: "共情 · 体验 · 人文 · 摇摆",
+
+                desc: "您关注人的情感体验，有人文关怀。您既不想做枯燥的商业设计，也不想做看不懂的纯艺术。您适合做时尚、策展、心理疗愈设计。",
+
+                path: "兼具艺术与人文氛围的院校 - Parsons, 顶级文理学院 (LAC)",
+
+                advice: "发挥您的共情能力，这是 AI 短期内无法取代的。去理解人，而不仅仅是理解图。"
+
+            };
+
+        } else if (totalScore <= 320) {
+
+            archetype = {
+
+                name: "纠结的探索者 (The Hybrid Explorer)",
+
+                keywords: "双核驱动 · 既要又要 · 跨界预备",
+
+                desc: "您是典型的"拉链申请法"适用人群。纯美院会让您觉得大脑饥渴，纯大U会让您觉得眼睛受罪。您需要在两个世界的边缘行走。",
+
+                path: "拥有强势设计学院的综合大学 - CMU, USC, UMich, NYU",
+
+                advice: "不要在此刻定义自己。利用综合大学的资源，多修几门课，您的未来在于连接点。"
+
+            };
+
+        } else if (totalScore <= 350) {
+
+            archetype = {
+
+                name: "设计战略家 (The Design Strategist)",
+
+                keywords: "逻辑 · 策略 · 系统 · 解决问题",
+
+                desc: "恭喜，您是目前科技大厂最抢手的人才。您已经脱离了"美工"的低级趣味，您是用设计思维解决复杂商业问题的操盘手。",
+
+                path: "综合性大学 (HCI / Interaction / Strategy Track) - UMich, Cornell, Stanford",
+
+                advice: "必须辅修心理学、CS 或数据科学。您的战场不在画布上，而在白板和流程图里。"
+
+            };
+
+        } else if (totalScore <= 375) {
+
+            archetype = {
+
+                name: "跨界创新者 (The Innovator)",
+
+                keywords: "理性 · 科技 · 效率 · 野心",
+
+                desc: "设计对您来说只是一个工具，而不是信仰。您未来可能是创业者、产品经理或技术高管。艺术学校的学历对您来说是束缚，您需要硬核的技术背书。",
+
+                path: "顶级理工类大学 (Media Lab / Engineering Track) - MIT, Georgia Tech",
+
+                advice: "忘掉你是设计师，要把自己当成是一个"做产品的"。"
+
+            };
+
+        } else if (totalScore <= 390) {
+
+            archetype = {
+
+                name: "商业操盘手 (The Business Mind)",
+
+                keywords: "结果导向 · 数据驱动 · 现实 · 利益",
+
+                desc: "承认吧，您其实并不喜欢画画，您只是喜欢设计带来的商业价值。不要浪费时间在 Studio 磨技法了，去学金融、去学管理、去搞流量。",
+
+                path: "综合大学 (转专业预备役) - 商学院, 传媒",
+
+                advice: "设计背景是您的加分项，能让您的 PPT 做得比别人好看，这就够了。"
+
+            };
+
+        } else {
+
+            archetype = {
+
+                name: "误入歧途的局外人 (The Lost Rationalist)",
+
+                keywords: "绝对理性 · 功利 · 对感性免疫",
+
+                desc: "您可能对"设计"有什么误解，或者被中介忽悠了。您的天赋在于分析、计算和逻辑推导。",
+
+                path: "请立刻停止申请艺术/设计类专业",
+
+                advice: "请去读 CS、数据科学、法学或金融。那里才是您的战场。不要用您的短板去挑战别人的长板。"
+
+            };
+
+        }
+
+        document.getElementById('archetype-name').textContent = archetype.name;
+
+        document.getElementById('archetype-keywords').textContent = archetype.keywords;
+
+        document.getElementById('archetype-desc').textContent = archetype.desc;
+
+        document.getElementById('archetype-path').textContent = archetype.path;
+
+        document.getElementById('archetype-advice').textContent = archetype.advice;
+
+    }
+
+    function copyResult() {
+
+        const score = document.getElementById('final-score').textContent;
+
+        const name = document.getElementById('archetype-name').textContent;
+
+        const text = `我的HEPAM测试结果：\n总分：${score}\n画像：${name}\n\n请帮我分析选校策略。\n\n微信：Citrusphilic`;
+
+        
+
+        navigator.clipboard.writeText(text).then(() => {
+
+            const msg = document.getElementById('copy-msg');
+
+            msg.style.display = 'block';
+
+            setTimeout(() => msg.style.display = 'none', 3000);
+
+        });
+
+    }
+
+</script>
+
+</body>
+
+</html>
