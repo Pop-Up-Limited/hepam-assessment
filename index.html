@@ -706,7 +706,7 @@
 
         { part: "Part 9: 宏观视角与趋势", q: "您认为 NFT 和 Web3 是：", options: ["数字艺术的新载体。", "没啥意思，还是实体有质感。", "可能改变生产关系的技术变革。", "割韭菜的骗局，或者暴富的机会。"] },
 
-        { part: "Part 9: 宏观视角与趋势", q: "对于"元宇宙"，您的第一反应是：", options: ["里面的视觉效果酷不酷？", "我要学什么新软件才能做元宇宙设计？", "它的交互逻辑和社会形态会是怎样的？", "这里面有什么商机？"] },
+        { part: "Part 9: 宏观视角与趋势", q: "对于\"元宇宙\"，您的第一反应是：", options: ["里面的视觉效果酷不酷？", "我要学什么新软件才能做元宇宙设计？", "它的交互逻辑和社会形态会是怎样的？", "这里面有什么商机？"] },
 
         { part: "Part 9: 宏观视角与趋势", q: "您认为未来的竞争对手是：", options: ["天赋比我高的艺术家。", "更年轻、更拼、更便宜的设计师。", "AI、算法和拥有跨界能力的人。", "资本和垄断巨头。"] },
 
@@ -746,64 +746,77 @@
 
     ];
 
-    let currentQuestion = 0;
+    // Variables moved to quizData object
 
-    let score = 0;
+    // Wait for DOM to be ready
+    function initWhenReady() {
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initializeQuiz);
+        } else {
+            // DOM already loaded
+            initializeQuiz();
+        }
+    }
+    initWhenReady();
 
-    const scores = new Array(100).fill(0); // Store individual answers to allow "Back"
+    function initializeQuiz() {
+        const intro = document.getElementById('intro');
+        const quiz = document.getElementById('quiz');
+        const result = document.getElementById('result');
+        const partTitleEl = document.getElementById('part-title');
+        const questionTextEl = document.getElementById('question-text');
+        const optionsContainer = document.getElementById('options-container');
+        const progressEl = document.getElementById('progress');
+        const counterEl = document.getElementById('counter');
+        const prevBtn = document.getElementById('prev-btn');
 
-    const intro = document.getElementById('intro');
-
-    const quiz = document.getElementById('quiz');
-
-    const result = document.getElementById('result');
-
-    
-
-    const partTitleEl = document.getElementById('part-title');
-
-    const questionTextEl = document.getElementById('question-text');
-
-    const optionsContainer = document.getElementById('options-container');
-
-    const progressEl = document.getElementById('progress');
-
-    const counterEl = document.getElementById('counter');
-
-    const prevBtn = document.getElementById('prev-btn');
+        // Store references globally for functions to access
+        window.quizData = {
+            currentQuestion: 0,
+            score: 0,
+            scores: new Array(100).fill(0),
+            intro: intro,
+            quiz: quiz,
+            result: result,
+            partTitleEl: partTitleEl,
+            questionTextEl: questionTextEl,
+            optionsContainer: optionsContainer,
+            progressEl: progressEl,
+            counterEl: counterEl,
+            prevBtn: prevBtn
+        };
+    }
 
     function startTest() {
-
+        if (!window.quizData) {
+            console.error('Quiz not initialized');
+            return;
+        }
+        const { intro, quiz } = window.quizData;
+        if (!intro || !quiz) {
+            console.error('DOM elements not found');
+            return;
+        }
         intro.style.display = 'none';
-
         quiz.style.display = 'block';
-
         renderQuestion();
-
     }
 
     function renderQuestion() {
-
+        if (!window.quizData) return;
+        const { currentQuestion, partTitleEl, questionTextEl, counterEl, progressEl, prevBtn, optionsContainer } = window.quizData;
+        
         const q = questions[currentQuestion];
-
         partTitleEl.textContent = q.part;
-
         questionTextEl.textContent = `${currentQuestion + 1}. ${q.q}`;
-
         counterEl.textContent = `${currentQuestion + 1} / 100`;
 
-        
-
         // Progress bar
-
         const progress = ((currentQuestion) / 100) * 100;
-
         progressEl.style.width = `${progress}%`;
 
         // Prev button state
-
         prevBtn.disabled = currentQuestion === 0;
-
         prevBtn.style.opacity = currentQuestion === 0 ? 0.5 : 1;
 
         optionsContainer.innerHTML = '';
@@ -847,44 +860,33 @@
     }
 
     function handleAnswer(value) {
-
+        if (!window.quizData) return;
+        const { currentQuestion, scores } = window.quizData;
+        
         scores[currentQuestion] = value; // A=1, B=2, C=3, D=4
 
-        
-
         if (currentQuestion < 99) {
-
-            currentQuestion++;
-
+            window.quizData.currentQuestion++;
             renderQuestion();
-
         } else {
-
             showResult();
-
         }
-
     }
 
     function prevQuestion() {
-
-        if (currentQuestion > 0) {
-
-            currentQuestion--;
-
+        if (!window.quizData) return;
+        if (window.quizData.currentQuestion > 0) {
+            window.quizData.currentQuestion--;
             renderQuestion();
-
         }
-
     }
 
     function showResult() {
-
-        quiz.style.display = 'none';
-
-        result.style.display = 'block';
-
+        if (!window.quizData) return;
+        const { quiz, result, scores } = window.quizData;
         
+        quiz.style.display = 'none';
+        result.style.display = 'block';
 
         const totalScore = scores.reduce((a, b) => a + b, 0);
 
